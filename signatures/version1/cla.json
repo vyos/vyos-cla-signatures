@@ -1,3 +1,12 @@
 {
-   "signedContributors": []
+  "signedContributors": [
+    {
+      "name": "lemeshovich",
+      "id": 17667824,
+      "comment_id": 3004492528,
+      "created_at": "2025-06-25T11:52:17Z",
+      "repoId": 855717234,
+      "pullRequestNo": 18
+    }
+  ]
 }
