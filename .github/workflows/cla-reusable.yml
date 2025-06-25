@@ -32,6 +32,6 @@ jobs:
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://github.com/vyos/vyos-cla-signatures/blob/current/README.md'
           branch: 'current'
-          allowlist: 'vyosbot'
+          allowlist: 'vyosbot,pre-commit-ci,dependabot,codecov,mergify,netlify'
           remote-organization-name: 'vyos'
           remote-repository-name: 'vyos-cla-signatures'
