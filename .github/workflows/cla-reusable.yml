@@ -1,12 +1,7 @@
 name: "CLA Assistant Reusable"
 
 on:
-  workflow_call:
-    inputs:
-      allowlist:
-        description: 'Comma-separated list of usernames or patterns'
-        required: true
-        type: string
+  workflow_call: {}
 
 jobs:
   cla_assistant:
@@ -32,6 +27,6 @@ jobs:
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://github.com/vyos/vyos-cla-signatures/blob/current/README.md'
           branch: 'current'
-          allowlist: ${{ inputs.allowlist }}
+          allowlist: 'vyosbot'
           remote-organization-name: 'vyos'
           remote-repository-name: 'vyos-cla-signatures'
