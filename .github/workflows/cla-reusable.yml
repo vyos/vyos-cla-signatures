@@ -1,7 +1,11 @@
 name: "CLA Assistant Reusable"
 
 on:
-  workflow_call: {}
+  workflow_call:
+    secrets:
+      CLA_PAT:
+        description: 'GitHub PAT with repo scope'
+        required: true
 
 jobs:
   cla_assistant:
