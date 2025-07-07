@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: write
-      contents: write
+      contents: read
       pull-requests: write
       statuses: write
 
