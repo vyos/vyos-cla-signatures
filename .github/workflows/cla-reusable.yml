@@ -35,3 +35,4 @@ jobs:
           allowlist: 'vyosbot,pre-commit-ci,dependabot,codecov,mergify,netlify'
           remote-organization-name: 'vyos'
           remote-repository-name: 'vyos-cla-signatures'
+          lock-pullrequest-aftermerge: false
