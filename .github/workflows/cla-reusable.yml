@@ -41,7 +41,6 @@ jobs:
             copilot[bot],
             Copilot,
             vyosbot,
-            vyosbot[bot],
             pre-commit-ci,
             pre-commit-ci[bot],
             codecov,
