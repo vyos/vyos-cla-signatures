@@ -375,6 +375,14 @@
       "created_at": "2025-09-17T23:25:11Z",
       "repoId": 150965003,
       "pullRequestNo": 1684
+    },
+    {
+      "name": "boretom",
+      "id": 52218,
+      "comment_id": 3324976028,
+      "created_at": "2025-09-23T17:44:10Z",
+      "repoId": 48169640,
+      "pullRequestNo": 1043
     }
   ]
 }
