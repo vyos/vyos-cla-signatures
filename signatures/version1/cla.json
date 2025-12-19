@@ -463,6 +463,14 @@
       "created_at": "2025-12-14T22:28:54Z",
       "repoId": 100655206,
       "pullRequestNo": 4899
+    },
+    {
+      "name": "AndriiFullroot",
+      "id": 51375681,
+      "comment_id": 3675113825,
+      "created_at": "2025-12-19T13:35:22Z",
+      "repoId": 100655206,
+      "pullRequestNo": 4910
     }
   ]
 }
