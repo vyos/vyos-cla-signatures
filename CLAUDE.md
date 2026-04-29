@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Project purpose
-Registry of signed VyOS Contributor License Agreements (CLAs). The `README.md` is the canonical CLA text; `signatures/version1/cla.json` holds all signer records. Hosts the reusable `cla-reusable.yml` workflow that gates contributions to all VyOS repositories.
+Registry of signed VyOS Contributor License Agreements (CLAs). The `README.md` is the canonical CLA text; `signatures/` holds a record per signer. Hosts the reusable `cla-check.yml` workflow that gates contributions to all VyOS repositories.
 
 ## Tech stack
 - Plain text + Markdown. No build system.
@@ -12,7 +12,7 @@ N/A — additions land via PR. The CLA workflow inspects PR authors against `sig
 
 ## Repository layout
 - `README.md` — CLA text (the legal agreement).
-- `signatures/version1/cla.json` — single JSON file containing all signer records (current schema).
+- `signatures/version1/` — one file per signer (current schema).
 - `.github/workflows/cla-reusable.yml` — the reusable CLA-check workflow.
 
 ## Cross-repo context
@@ -35,7 +35,3 @@ No mirror twin. Canonical repo on the `vyos/*` side only.
 - New signatures are merged by maintainers, not by the contributor. The workflow auto-detects who has signed.
 - Schema is `signatures/version1/`; if a `version2/` is ever introduced, update the reusable workflow to scan both directories during the transition.
 - This repo is referenced by floating `@current` from every consumer — any breaking workflow-input change is an org-wide outage.
-
----
-
-This file is mirrored on Confluence: [`vyos/vyos-cla-signatures`](https://internal.confluence.vyos.com/wiki/spaces/VYOS/pages/818184670). The Confluence page also carries the per-repo audit data (settings, workflows, secret counts, hygiene) that complements this CLAUDE.md. Edit either side; resync via the documentation pipeline.
