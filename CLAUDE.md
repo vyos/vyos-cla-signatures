@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Project purpose
-Registry of signed VyOS Contributor License Agreements (CLAs). The `README.md` is the canonical CLA text; `signatures/` holds a record per signer. Hosts the reusable `cla-check.yml` workflow that gates contributions to all VyOS repositories.
+Registry of signed VyOS Contributor License Agreements (CLAs). The `README.md` is the canonical CLA text; `signatures/version1/cla.json` holds all signer records. Hosts the reusable `cla-reusable.yml` workflow that gates contributions to all VyOS repositories.
 
 ## Tech stack
 - Plain text + Markdown. No build system.
@@ -12,7 +12,7 @@ N/A — additions land via PR. The CLA workflow inspects PR authors against `sig
 
 ## Repository layout
 - `README.md` — CLA text (the legal agreement).
-- `signatures/version1/` — one file per signer (current schema).
+- `signatures/version1/cla.json` — single JSON file containing all signer records (current schema).
 - `.github/workflows/cla-reusable.yml` — the reusable CLA-check workflow.
 
 ## Cross-repo context
