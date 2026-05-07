@@ -16,7 +16,7 @@ N/A — additions land via PR. The CLA workflow inspects PR authors against `sig
 - `.github/workflows/cla-reusable.yml` — the reusable CLA-check workflow.
 
 ## Cross-repo context
-**Canonical CLA gate.** Every VyOS-org and VyOS-Networks-org repo's `cla-check.yml` ultimately delegates to:
+**Canonical CLA gate.** Every VyOS-org and the private side-org repo's `cla-check.yml` ultimately delegates to:
 ```
 uses: vyos/vyos-cla-signatures/.github/workflows/cla-reusable.yml@current
 ```
