@@ -48,7 +48,11 @@ jobs:
             mergify,
             mergify[bot],
             netlify,
-            netlify[bot]
+            netlify[bot],
+            claude,
+            claude[bot],
+            coderabbitai,
+            coderabbitai[bot]
           remote-organization-name: 'vyos'
           remote-repository-name: 'vyos-cla-signatures'
           lock-pullrequest-aftermerge: false
