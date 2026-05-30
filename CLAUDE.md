@@ -18,13 +18,13 @@ N/A — additions land via PR. The CLA workflow inspects PR authors against `sig
 ## Cross-repo context
 **Canonical CLA gate.** Every VyOS-org and VyOS-Networks-org repo's `cla-check.yml` ultimately delegates to:
 ```
-uses: vyos/vyos-cla-signatures/.github/workflows/cla-reusable.yml@current
+uses: vyos/vyos-cla-signatures/.github/workflows/cla-reusable.yml@production
 ```
 This is the only path by which a contributor's signature is validated. The workflow is also referenced indirectly through `vyos/.github`'s `cla-check.yml` reusable.
 
 ## Conventions
 - Commit/PR title: `component: T12345: description` (Phorge task ID at https://vyos.dev) where applicable. New-signature PRs typically reference the signing workflow rather than a feature task.
-- Reusable workflow pin: floating `@current` — changes propagate immediately to every consumer.
+- Reusable workflow pin: floating `@production` — changes propagate immediately to every consumer.
 - Public repo: contains real names/emails of signers. Do not redact existing entries; only append.
 
 ## Mirror relationship
@@ -34,4 +34,4 @@ No mirror twin. Canonical repo on the `vyos/*` side only.
 - **Do not modify the CLA text in `README.md`** without legal review — it's a binding agreement between contributors and VyOS Networks.
 - New signatures are merged by maintainers, not by the contributor. The workflow auto-detects who has signed.
 - Schema is `signatures/version1/`; if a `version2/` is ever introduced, update the reusable workflow to scan both directories during the transition.
-- This repo is referenced by floating `@current` from every consumer — any breaking workflow-input change is an org-wide outage.
+- This repo is referenced by floating `@production` from every consumer — any breaking workflow-input change is an org-wide outage.
