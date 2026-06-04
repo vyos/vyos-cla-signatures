@@ -775,6 +775,14 @@
       "created_at": "2026-05-31T09:45:19Z",
       "repoId": 13467180,
       "pullRequestNo": 37
+    },
+    {
+      "name": "kroustou",
+      "id": 623898,
+      "comment_id": 4622315715,
+      "created_at": "2026-06-04T12:52:59Z",
+      "repoId": 240331017,
+      "pullRequestNo": 479
     }
   ]
 }
