@@ -4,8 +4,8 @@ on:
   workflow_call:
     secrets:
       CLA_PAT:
-        description: 'GitHub PAT with repo scope'
-        required: true
+        description: 'Unused — retained so callers passing it explicitly do not break; remove after the fleet-wide App-token bake'
+        required: false
 
 jobs:
   cla_assistant:
@@ -17,16 +17,35 @@ jobs:
       statuses: write
 
     steps:
+      # Signature writes to this repo use a vyos-bot App installation token scoped to
+      # contents:write on vyos/vyos-cla-signatures only (replaces the classic CLA_PAT).
+      # Callers need no changes: secrets:inherit carries the org-level APP_PRIVATE_KEY,
+      # and vars.APP_CLIENT_ID resolves from the calling org (both orgs carry both).
+      - name: Mint App token for signature writes
+        id: app-token
+        if: >
+          github.event_name == 'pull_request_target' ||
+          (github.event_name == 'issue_comment' &&
+           (github.event.comment.body == 'recheck' ||
+            github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA'))
+        uses: vyos/.github/.github/actions/get-token@production
+        with:
+          owner: vyos
+          repositories: vyos-cla-signatures
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permissions: '{"contents":"write"}'
+
       - name: Run Contributor Assistant
         if: >
           github.event_name == 'pull_request_target' ||
           (github.event_name == 'issue_comment' &&
            (github.event.comment.body == 'recheck' ||
             github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA'))
-        uses: contributor-assistant/github-action@v2.6.1
+        uses: contributor-assistant/github-action@ca4a40a7d1004f18d9960b404b97e5f30a505a08 # v2.6.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.CLA_PAT }}
+          PERSONAL_ACCESS_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
           path-to-signatures: 'signatures/version1/cla.json'
           path-to-document: 'https://github.com/vyos/vyos-cla-signatures/blob/production/README.md'
