@@ -3,6 +3,9 @@ name: "CLA Assistant Reusable"
 on:
   workflow_call:
     secrets:
+      APP_PRIVATE_KEY:
+        description: 'vyos-bot GitHub App private key (PEM). Satisfied automatically by callers using secrets:inherit (org-level secret in both orgs). The companion vars.APP_CLIENT_ID org variable is also required.'
+        required: false
       CLA_PAT:
         description: 'Unused — retained so callers passing it explicitly do not break; remove after the fleet-wide App-token bake'
         required: false
@@ -10,6 +13,11 @@ on:
 jobs:
   cla_assistant:
     runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'pull_request_target' ||
+      (github.event_name == 'issue_comment' &&
+       (github.event.comment.body == 'recheck' ||
+        github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA'))
     permissions:
       actions: write
       contents: read
@@ -23,11 +31,6 @@ jobs:
       # and vars.APP_CLIENT_ID resolves from the calling org (both orgs carry both).
       - name: Mint App token for signature writes
         id: app-token
-        if: >
-          github.event_name == 'pull_request_target' ||
-          (github.event_name == 'issue_comment' &&
-           (github.event.comment.body == 'recheck' ||
-            github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA'))
         uses: vyos/.github/.github/actions/get-token@production
         with:
           owner: vyos
@@ -37,11 +40,6 @@ jobs:
           permissions: '{"contents":"write"}'
 
       - name: Run Contributor Assistant
-        if: >
-          github.event_name == 'pull_request_target' ||
-          (github.event_name == 'issue_comment' &&
-           (github.event.comment.body == 'recheck' ||
-            github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA'))
         uses: contributor-assistant/github-action@ca4a40a7d1004f18d9960b404b97e5f30a505a08 # v2.6.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
