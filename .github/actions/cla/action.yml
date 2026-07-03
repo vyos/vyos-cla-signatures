@@ -1,0 +1,29 @@
+name: 'VyOS CLA check'
+description: 'Check PR committers against the VyOS CLA signature store; record sign-by-comment signatures.'
+inputs:
+  signature-token:
+    description: 'Token with contents:write on the signatures repo (App installation token from get-token)'
+    required: true
+  signatures-repo:
+    description: 'owner/repo holding the signatures file'
+    required: false
+    default: 'vyos/vyos-cla-signatures'
+  signatures-branch:
+    description: 'Branch the signatures file lives on'
+    required: false
+    default: 'production'
+  signatures-path:
+    description: 'Path of the signatures JSON inside the signatures repo'
+    required: false
+    default: 'signatures/version1/cla.json'
+  document-url:
+    description: 'CLA document link shown to contributors'
+    required: false
+    default: 'https://github.com/vyos/vyos-cla-signatures/blob/production/README.md'
+  allowlist:
+    description: 'Comma-separated exact logins exempt from signing'
+    required: false
+    default: ''
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
