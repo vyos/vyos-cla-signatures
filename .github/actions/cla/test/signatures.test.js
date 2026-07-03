@@ -92,6 +92,21 @@ test('duplicate-sign race: entry appears between attempts -> skipped on retry', 
   assert.strictEqual(state.putLog.length, 0);
 });
 
+test('422 conflict (concurrent bootstrap create) retries with refetch and succeeds', async () => {
+  const state = { entries: [], rev: 1, failPuts: 0, putLog: [] };
+  const inner = storeOctokit(state);
+  const origPut = inner.rest.repos.createOrUpdateFileContents;
+  let puts = 0;
+  inner.rest.repos.createOrUpdateFileContents = async (...a) => {
+    puts += 1;
+    if (puts === 1) { state.rev += 1; const e = new Error('sha wasn\'t supplied'); e.status = 422; throw e; }
+    return origPut(...a);
+  };
+  const res = await appendSignature(inner, CFG, ENTRY, { owner: 'o', repo: 'r' });
+  assert.strictEqual(res.written, true);
+  assert.strictEqual(state.putLog[0].sha, 'sha-2'); // refetched before the successful retry
+});
+
 test('gives up after 3 attempts', async () => {
   const state = { entries: [], rev: 1, failPuts: 3, putLog: [] };
   await assert.rejects(() => appendSignature(storeOctokit(state), CFG, ENTRY, { owner: 'o', repo: 'r' }));
