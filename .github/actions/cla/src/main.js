@@ -73,11 +73,10 @@ module.exports = { run };
 
 if (require.main === module) {
   const core = require('@actions/core');
-  const github = require('@actions/github');
-  const ghToken = process.env.GITHUB_TOKEN;
-  if (!ghToken) {
-    core.setFailed('GITHUB_TOKEN env var is required');
-  } else {
+  try {
+    const github = require('@actions/github');
+    const ghToken = process.env.GITHUB_TOKEN;
+    if (!ghToken) throw new Error('GITHUB_TOKEN env var is required');
     run({
       core,
       context: {
@@ -89,5 +88,7 @@ if (require.main === module) {
       repoOctokit: github.getOctokit(ghToken),
       sigOctokit: github.getOctokit(core.getInput('signature-token', { required: true })),
     }).catch((e) => core.setFailed(e.message));
+  } catch (e) {
+    core.setFailed(e.message);
   }
 }

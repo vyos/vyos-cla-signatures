@@ -30184,11 +30184,10 @@ module.exports = { run };
 
 if (require.main === require.cache[eval('__filename')]) {
   const core = __nccwpck_require__(7484);
-  const github = __nccwpck_require__(3228);
-  const ghToken = process.env.GITHUB_TOKEN;
-  if (!ghToken) {
-    core.setFailed('GITHUB_TOKEN env var is required');
-  } else {
+  try {
+    const github = __nccwpck_require__(3228);
+    const ghToken = process.env.GITHUB_TOKEN;
+    if (!ghToken) throw new Error('GITHUB_TOKEN env var is required');
     run({
       core,
       context: {
@@ -30200,6 +30199,8 @@ if (require.main === require.cache[eval('__filename')]) {
       repoOctokit: github.getOctokit(ghToken),
       sigOctokit: github.getOctokit(core.getInput('signature-token', { required: true })),
     }).catch((e) => core.setFailed(e.message));
+  } catch (e) {
+    core.setFailed(e.message);
   }
 }
 
