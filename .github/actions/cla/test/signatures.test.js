@@ -12,7 +12,7 @@ function storeOctokit(state) {
       repos: {
         getContent: async () => {
           if (state.entries === null) { const e = new Error('nf'); e.status = 404; throw e; }
-          return { data: { content: b64({ signedContributors: state.entries }), sha: `sha-${state.rev}` } };
+          return { data: { content: b64({ signedContributors: state.entries }), encoding: 'base64', sha: `sha-${state.rev}` } };
         },
         createOrUpdateFileContents: async (params) => {
           if (state.failPuts > 0) {

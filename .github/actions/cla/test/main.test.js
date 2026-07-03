@@ -35,7 +35,7 @@ function makeDeps({ eventName, payload, commits, sigEntries, comments = [] }) {
     rest: { repos: {
       getContent: async () => {
         if (state.entries === null) { const e = new Error('nf'); e.status = 404; throw e; }
-        return { data: { content: Buffer.from(JSON.stringify({ signedContributors: state.entries }, null, 2)).toString('base64'), sha: 's1' } };
+        return { data: { content: Buffer.from(JSON.stringify({ signedContributors: state.entries }, null, 2)).toString('base64'), encoding: 'base64', sha: 's1' } };
       },
       createOrUpdateFileContents: async (params) => {
         log.sigPuts.push(params);

@@ -57,10 +57,16 @@ test('paginates past 100 commits', async () => {
 test('parseAllowlist trims the live folded-YAML shape and drops empties', () => {
   const live = 'github-actions[bot],\n dependabot-preview[bot],\n insights-engineering-bot,\n dependabot[bot],\n copilot,\n github-copilot[bot],\n copilot[bot],\n Copilot,\n vyosbot,\n pre-commit-ci,\n pre-commit-ci[bot],\n codecov,\n codecov[bot],\n mergify,\n mergify[bot],\n netlify,\n netlify[bot],\n claude,\n claude[bot],\n coderabbitai,\n coderabbitai[bot]';
   const set = parseAllowlist(live);
-  assert.strictEqual(set.size, 21);
+  assert.strictEqual(set.size, 20); // copilot + Copilot collapse under case-insensitive matching
   assert.ok(set.has('dependabot[bot]'));
   assert.ok(set.has('coderabbitai[bot]'));
   assert.ok(!set.has(' dependabot[bot]'));
+});
+
+test('allowlist matching is case-insensitive', () => {
+  const accounts = new Map([[1, 'Copilot'], [2, 'alice']]);
+  const out = filterAllowlisted(accounts, parseAllowlist('copilot'));
+  assert.deepStrictEqual([...out.entries()], [[2, 'alice']]);
 });
 
 test('filterAllowlisted removes exact-login matches only', () => {

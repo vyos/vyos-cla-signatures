@@ -23,13 +23,16 @@ async function collectCommitters(octokit, { owner, repo, prNumber }) {
 }
 
 function parseAllowlist(raw) {
-  return new Set(String(raw || '').split(',').map((s) => s.trim()).filter(Boolean));
+  // GitHub logins are case-insensitively unique; normalize so an allowlist
+  // entry matches regardless of casing (the live list carries copilot AND
+  // Copilot as a legacy workaround for case-sensitive matching).
+  return new Set(String(raw || '').split(',').map((s) => s.trim().toLowerCase()).filter(Boolean));
 }
 
 function filterAllowlisted(accounts, allow) {
   const out = new Map();
   for (const [id, login] of accounts) {
-    if (!allow.has(login)) out.set(id, login);
+    if (!allow.has(login.toLowerCase())) out.set(id, login);
   }
   return out;
 }

@@ -1,6 +1,12 @@
 async function loadSignatures(octokit, { owner, repo, path, branch }) {
   try {
     const res = await octokit.rest.repos.getContent({ owner, repo, path, ref: branch });
+    // The contents API stops inlining base64 for files past its size threshold
+    // (~1 MB). The signatures file is ~16 KB today; fail loudly long before a
+    // silent bad parse if that ever changes.
+    if (res.data.encoding !== 'base64' || typeof res.data.content !== 'string' || res.data.content === '') {
+      throw new Error(`unexpected contents-API response for ${path}: encoding=${res.data.encoding} — file too large for inline content?`);
+    }
     const json = JSON.parse(Buffer.from(res.data.content, 'base64').toString('utf8'));
     return { entries: json.signedContributors || [], sha: res.data.sha, exists: true };
   } catch (e) {
@@ -20,7 +26,6 @@ function matchSignatures(accounts, entries) {
 }
 
 async function appendSignature(octokit, cfg, entry, calling) {
-  let lastError;
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     const cur = await loadSignatures(octokit, cfg);
     if (cur.entries.some((e) => e.id === entry.id)) return { written: false, reason: 'already-signed' };
@@ -39,12 +44,11 @@ async function appendSignature(octokit, cfg, entry, calling) {
       await octokit.rest.repos.createOrUpdateFileContents(params);
       return { written: true };
     } catch (e) {
-      lastError = e;
+      // last attempt (or non-conflict error) throws here — the loop never exits normally
       if ((e.status === 409 || e.status === 422) && attempt < 3) continue;
       throw e;
     }
   }
-  throw lastError;
 }
 
 module.exports = { loadSignatures, matchSignatures, appendSignature };
