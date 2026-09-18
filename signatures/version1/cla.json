@@ -1047,6 +1047,14 @@
       "created_at": "2026-09-17T23:30:29Z",
       "repoId": 100655206,
       "pullRequestNo": 5487
+    },
+    {
+      "name": "ashimov",
+      "id": 9959703,
+      "comment_id": 5728517097,
+      "created_at": "2026-09-18T10:09:53Z",
+      "repoId": 100655206,
+      "pullRequestNo": 5488
     }
   ]
 }
