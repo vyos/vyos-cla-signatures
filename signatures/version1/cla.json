@@ -1055,6 +1055,14 @@
       "created_at": "2026-09-18T10:09:53Z",
       "repoId": 100655206,
       "pullRequestNo": 5488
+    },
+    {
+      "name": "t-shiro",
+      "id": 2003920,
+      "comment_id": 5789043096,
+      "created_at": "2026-09-23T04:26:43Z",
+      "repoId": 100655206,
+      "pullRequestNo": 5494
     }
   ]
 }
